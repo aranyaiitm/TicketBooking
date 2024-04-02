@@ -3,11 +3,11 @@ from flask_restful import Resource
 from flask_login import current_user
 from flask_security import auth_required, hash_password ,roles_required
 from flask_restful import  marshal_with, fields, reqparse
-from .database import db
-from .datastore import user_datastore
+from ..database import db
+from ..datastore import user_datastore
 from .booking_api import booking_output
 from .theatre_api import theatre_output
-from .validation import  UserValidationError
+from ..validation import  UserValidationError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
 

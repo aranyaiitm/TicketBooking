@@ -4,7 +4,7 @@ export default {
             <div class="card-body">
                 <h5 class="card-title">{{ sshow.title }}</h5>
                 <div v-for='(theatre_show, index) in sshow.theatre_shows'>
-                    <span>{{ theatre_show.venue.theatre_name }}</span>
+                    <span>{{ theatre_show.venue.theatre_name }},{{ theatre_show.time }}</span>
                     <div class="progress" role="progressbar" aria-label="Example with label" v-bind:aria-valuenow='booking_count(theatre_show.theatre_id)' aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-bar" v-bind:style="'width: '+ barPercent(theatre_show.theatre_id,index) + '%'">{{ booking_count(theatre_show.theatre_id) }}</div>
                     </div>

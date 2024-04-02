@@ -1,4 +1,5 @@
 import Theatre from "../components/Theatre.js"
+import AddTheatre from "../components/AddTheatre.js"
 import Fetchdata from "../Fetch.js"
 import ApiUrl from '../config.js'
 
@@ -9,16 +10,22 @@ export default {
                     <!-- Theatre -->
                 <Theatre v-for="(theatre, index) in user.theatres" :key="theatre.theatre_id" v-bind:theatre='theatre' @remove="deltheatre(index)"/>
                 <div class="col">
-                    <router-link class="card btn btn-light h-100 text-center" style="min-height: 50vh;" :to="{name:'addtheatre'}">
+                    <a class="card btn btn-light h-100 text-center" style="min-height: 50vh; cursor: pointer" @click="isOpen='addTheatre'">
                         <h1 class="my-auto"><i class="bi bi-file-earmark-plus-fill"></i></h1>
-                    </router-link>
+                    </a>
+                    <div v-if="isOpen === 'addTheatre'">
+                        <div class="model">
+                            <AddTheatre @closeForm='isOpen= null' @theatreAdded='updateHome'/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>`,
 
     components: {
-        Theatre
+        Theatre,
+        AddTheatre
     },
 
     data() {
@@ -30,6 +37,7 @@ export default {
                 theatres: null
             },
             error: null,
+            isOpen: null
         }
     },
     
@@ -46,12 +54,25 @@ export default {
                 authRequired: true
             })
             .then((data) => {
+                console.log("Data deleted")
                 console.log( data)
             })
             .catch((err) => {
                 this.error = err.message
             })
             this.user.theatres.splice(index, 1)
+        },
+        updateHome() {
+            console.log('updating')
+            Fetchdata({  url: `${ApiUrl}/theatre`, authRequired: true })
+            .then((data) => {
+                this.user.theatres = data
+                console.log(this.user.theatres)
+            })
+            .catch((err) => {
+                this.error = err.message
+            })
+            this.isOpen = null;
         }
     },
 

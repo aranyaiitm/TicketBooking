@@ -48,7 +48,7 @@ export default {
     methods: {
         rate(id) {
             Fetchdata({
-                url: `${ApiUrl}/show/${id}`,
+                url: `${ApiUrl}/rate/${id}`,
                 obj: {
                     headers: {
                         'Content-Type': 'application/json',

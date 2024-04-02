@@ -59,6 +59,7 @@ class Show(db.Model):
     qrat = db.Column(db.Integer, nullable=True)
     tags = db.Column(db.String, nullable=True)
     price = db.Column(db.Integer, nullable=False)
+    img = db.Column(db.String, nullable=False)
     theatre_shows = db.relationship("Theatre_show", cascade="all, delete-orphan", backref=db.backref('show', lazy=True))
     bookings = db.relationship("Booking", cascade="all, delete-orphan", backref=db.backref('show', lazy=True))
 
@@ -71,3 +72,16 @@ class Booking(db.Model):
     time = db.Column(db.DateTime, nullable=False, default=datetime.now)
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Integer, nullable=False)
+
+class PushSubscription(db.Model):
+    __tablename__ = 'pushsubscription'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    endpoint = db.Column(db.String, nullable=False)
+    keys = db.relationship("Key", cascade="all, delete-orphan")
+
+class Key(db.Model):
+    __tablename__ = 'key'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    subscription_id = db.Column(db.Integer, db.ForeignKey('pushsubscription.id'), nullable=False)
+    p256dh = db.Column(db.String, nullable=False)
+    auth = db.Column(db.String, nullable=False)

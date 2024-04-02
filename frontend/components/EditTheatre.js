@@ -4,8 +4,8 @@ import ApiUrl from '../config.js'
 export default {
     template: `<div class="container" style="min-height: 75vh;">
         <div class="row justify-content-md-center">
-            <div class="col col-md-8" >
-                <div class="card">
+            <div class="col col-md-6" >
+                <div class="card model-content">
                     <div class="card-header p-4 text-center">
                         <h4>Edit a Theatre</h4>
                     </div>
@@ -13,7 +13,7 @@ export default {
                         <form>
                             <div class="mb-3">
                             <label for="tid" class="form-label">Theatre Id</label>
-                            <input type="number" class="form-control" id="tid" v-model='theatre_id' readonly>
+                            <input type="number" class="form-control" id="tid" v-model='theatreId' readonly>
                             </div>
                             <div class="mb-3">
                             <label for="name1" class="form-label">Venue Name</label>
@@ -29,6 +29,7 @@ export default {
                             </div>
                             <div class="text-center">
                             <button type="button" class="btn btn-primary" v-on:click='addshow()'>Submit</button>
+                            <button type="button" class="btn btn-primary" @click="$emit('closeForm')"> Close </button>
                             </div>
                             <p class="text-center text-muted mt-4 mb-0"><router-link :to="{name:'deleteshow'}" class="fw-bold" style="text-decoration: none;">Click here</router-link> to delete a show.</p>
                         </form>
@@ -38,6 +39,8 @@ export default {
         </div>
     </div>`,
 
+    props: ['theatre_id'],
+
     data() {
         return {
             theatre: {
@@ -46,7 +49,7 @@ export default {
                 capacity: null
             },
             show: null,
-            theatre_id: this.$route.params.theatre_id,
+            theatreId: this.theatre_id,
             error: null
         }
     },
@@ -54,7 +57,7 @@ export default {
     methods: {
         addshow() {
             Fetchdata({
-                url: `${ApiUrl}/theatre/${this.theatre_id}`,
+                url: `${ApiUrl}/theatre/${this.theatreId}`,
                 obj: {
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,7 +69,7 @@ export default {
             })
             .then((data) => {
                 console.log( data)
-                this.$router.push({ name: 'admin_home' })
+                this.$emit('theatreEdited');
             })
             .catch((err) => {
                 this.error = err.message

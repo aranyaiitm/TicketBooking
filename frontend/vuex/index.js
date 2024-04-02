@@ -5,6 +5,7 @@ const store = new Vuex.Store({
     state: {
         loggedin: localStorage.getItem('token') ? true : false,
         useremail: '',
+        exportedFiles: []
     },
 
     getters: {
@@ -25,6 +26,9 @@ const store = new Vuex.Store({
             state.loggedin = false
             state.useremail = ''
         },
+        addExportedFiles(state, filename) {
+            state.exportedFiles.push(filename);
+        }
     },
 
     actions: {

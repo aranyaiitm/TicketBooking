@@ -9,6 +9,8 @@ from application.resources import api
 # flask-CORS
 from flask_cors import CORS
 from application.cache import cache
+ # flask-web-push
+from application.push import push
 
 app = None
 celery = None
@@ -27,6 +29,7 @@ def create_app():
     cache.init_app(app)
     security.init_app(app, user_datastore)
     CORS(app)
+    push.init_app(app)
     app.app_context().push()
     celery = workers.celery
     celery.conf.update(

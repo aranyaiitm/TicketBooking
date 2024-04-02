@@ -78,7 +78,7 @@ export default {
             })
             .then((data) => {
                 console.log( data)
-                this.$router.push({ name: 'admin_home' })
+                this.$router.push({ name: 'home' })
             })
             .catch((err) => {
                 this.error = err.message

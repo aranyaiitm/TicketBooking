@@ -3,9 +3,9 @@ from flask_security import auth_required, roles_required
 from flask_restful import  marshal_with, fields, reqparse
 from flask_login import current_user
 from flask import current_app
-from .database import db
-from .models import Theatre, Theatre_show
-from .validation import  EntryValidationError, NotFoundError
+from ..database import db
+from ..models import Theatre, Theatre_show
+from ..validation import  EntryValidationError, NotFoundError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
 from datetime import datetime
@@ -21,12 +21,16 @@ show = {
     "rating" :fields.Float,
     "tags" :fields.String,
     "price" :fields.Integer,
+    "img" :fields.String,
 }
+class CustomDate(fields.Raw):
+    def format(self, value):
+        return value.strftime("%B %d, %Y, %I:%M %p")
 theatre_show_output ={
     "theatre_show_id" :fields.Integer,
     "theatre_id" :fields.Integer,
     "show_id" :fields.Integer,
-    "time" :fields.DateTime(dt_format='iso8601'),
+    "time" :CustomDate,
     "avs" :fields.Integer,
     "venue" :fields.Nested(venue),
     "show" :fields.Nested(show)

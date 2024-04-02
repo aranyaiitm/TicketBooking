@@ -12,22 +12,27 @@ import Booking from '../view/Booking.js'
 import Bookings from '../view/Bookings.js'
 import Edit_Show from '../view/Edit_Show.js'
 import Delete_Show from '../view/Delete_Show.js'
+import UserHeader from '../components/UserHeader.js'
+import InitHeader from '../components/InitHeader.js'
+import AdminHeader from '../components/AdminHeader.js'
+import Exports from '../view/Exports.js'
 
 const routes = [
-    { path: '/', name: 'home', component: Home},
-    { path: '/admin', name: 'admin_home', component: AdminHome},
-    { path: '/summary', name: 'summary', component: Summary},
-    { path: '/login', name: 'login', component: LogIn},
-    { path: '/adminlogin', name: 'adminlogin', component: AdminLogIn},
-    { path: '/register', name: 'register', component: Register},
-    { path: '/addtheatre', name: 'addtheatre', component: Add_Theatre},
-    { path: '/edittheatre', name: 'edittheatre', component: Edit_Theatre},
-    { path: '/addtheatre_show', name: 'addtheatre_show', component: Add_Theatre_Show},
-    { path: '/addshow', name: 'addshow', component: Add_Show},
-    { path: '/booking', name: 'booking', component: Booking},
-    { path: '/bookings', name: 'bookings', component: Bookings},
-    { path: '/editshow', name: 'editshow', component: Edit_Show},
-    { path: '/deleteshow', name: 'deleteshow', component: Delete_Show}
+    { path: '/', name: 'home', components:{main: Home, header:UserHeader}},
+    { path: '/booking', name: 'booking', components:{main: Booking, header:UserHeader}},
+    { path: '/bookings', name: 'bookings', components:{main: Bookings, header:UserHeader}},
+    { path: '/login', name: 'login', components:{main: LogIn, header:InitHeader}},
+    { path: '/adminlogin', name: 'adminlogin', components:{main: AdminLogIn, header:InitHeader}},
+    { path: '/register', name: 'register', components:{main: Register}, header:InitHeader},
+    { path: '/admin', name: 'admin_home', components:{main: AdminHome, header:AdminHeader}},
+    { path: '/summary', name: 'summary', components:{main: Summary, header:AdminHeader}},
+    { path: '/exports', name: 'exports', components:{main: Exports, header:AdminHeader}},
+    { path: '/addtheatre', name: 'addtheatre', components:{main: Add_Theatre, header:AdminHeader}},
+    { path: '/edittheatre', name: 'edittheatre', components:{main: Edit_Theatre, header:AdminHeader}},
+    { path: '/addtheatre_show', name: 'addtheatre_show', components:{main: Add_Theatre_Show, header:AdminHeader}},
+    { path: '/addshow', name: 'addshow', components:{main: Add_Show, header:AdminHeader}},
+    { path: '/editshow', name: 'editshow', components:{main: Edit_Show, header:AdminHeader}},
+    { path: '/deleteshow', name: 'deleteshow', components:{main: Delete_Show, header:AdminHeader}}
 ]
 
 const router = new VueRouter({

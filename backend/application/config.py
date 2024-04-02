@@ -39,3 +39,11 @@ class LocalDevelopementConfigaration(Config):
     CACHE_REDIS_HOST = "localhost"
     CACHE_REDIS_PORT = 6379
     CACHE_KEY_PREFIX = 'my_app'
+    #download file path
+    CSV_DOWNLOAD_FOLDER = 'exports'
+    CSV_DOWNLOAD_PATH = os.path.join(curr_dir, "../static", CSV_DOWNLOAD_FOLDER)
+    IMAGES_UPLOAD_FOLDER = 'imgs'
+    IMAGES_UPLOAD_PATH = os.path.join(curr_dir, "../static", IMAGES_UPLOAD_FOLDER)
+    #push-notification
+    WEBPUSH_VAPID_PRIVATE_KEY = 'qTmJymzitzaxCbhlAAZbnj7iIx4cP9HvPHJ_BMu2g34'
+    WEBPUSH_SENDER_INFO = 'mailto:admin@ticket.com'

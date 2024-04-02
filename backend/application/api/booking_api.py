@@ -2,14 +2,14 @@ from flask_restful import Resource
 from flask_security import auth_required
 from flask_restful import  marshal_with, fields, reqparse
 from flask import current_app
-from .database import db
-from .models import Booking, Theatre_show
-from .theatre_api import theatre_output
-from .validation import  EntryValidationError
+from ..database import db
+from ..models import Booking, Theatre_show
+from .theatre_api import theatre_output, CustomDate
+from ..validation import  EntryValidationError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
 from datetime import datetime
-from .cache import cache
+from ..cache import cache
 
 
 show = {
@@ -22,7 +22,7 @@ show = {
 booking_output = {
     "booking_id" :fields.Integer,
     "theatre_id" :fields.Integer,
-    "time" : fields.DateTime(dt_format='iso8601'),
+    "time" : CustomDate,
     "quantity" :fields.Integer,
     "total_price" :fields.Integer,
     "theatre" :fields.Nested(theatre_output),

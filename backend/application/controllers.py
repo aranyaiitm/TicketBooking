@@ -4,8 +4,8 @@ from flask_security import auth_required
 from application import tasks
 from datetime import datetime
 from application.mail_service.mail import send_reminder, send_entertaintment_report
-from application.models import User, Theatre, Theatre_show, Show
-
+from application.models import User, Theatre, Theatre_show, Show, PushSubscription
+from .push import push
 
 @app.route("/")
 @auth_required()
@@ -54,3 +54,28 @@ def home():
 #         if user.bookings == []:
 #             print(user.name)
 #     return ('Done')
+
+# -----------notification test---------------
+# @app.route("/notification", methods=["GET"])
+# def push_notification():
+#     subscriptions = PushSubscription.query.all()
+#     for subscription in subscriptions:
+#         keys = {
+#             'p256dh': subscription.keys[0].p256dh,
+#             'auth': subscription.keys[0].auth
+#         }
+
+#         subscription_info = {
+#             'endpoint': subscription.endpoint,
+#             'keys': keys
+#         }
+
+#         notification_data = {
+#             "title": "New Message",
+#             "body": "You have a new message!"
+#             # You can add more data here as needed
+#         }
+#         print(subscription_info)
+#         push.send(subscription_info, notification=notification_data)
+#     return "ok"
+# -----------notification test---------------

@@ -1,6 +1,7 @@
 export default {
     template: `<div class="col">
         <div class="card text-center mb-3">
+            <img v-bind:src="'http://localhost:8080/static/imgs/'+ theatreshow.show.img" class="card-img-top" alt="img">
             <div class="card-body">
                 <h5 class="card-title">{{ theatreshow.show.title }}</h5>
                 <p class="card-text">{{ theatreshow.show.tags }}</p>

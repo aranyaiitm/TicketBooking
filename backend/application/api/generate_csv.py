@@ -2,8 +2,11 @@
 from flask import jsonify
 from flask_security import auth_required, roles_required
 from flask_restful import Resource
-from .tasks import export_csv
-from .validation import  NotFoundError
+from ..tasks import export_csv
+from ..validation import  NotFoundError
+from flask import current_app as app
+from flask import send_from_directory, send_file
+import os
 
 
 class Export_CSV(Resource):
@@ -30,3 +33,11 @@ class Export_CSV(Resource):
 #             return result, 200
 #         else:
 #             return jsonify(error = "Not found",status = 404)
+
+class Download_CSV(Resource):
+    @auth_required("token")
+    @roles_required("admin")
+    def get(self, filename):
+        file_directory = app.config['CSV_DOWNLOAD_PATH']
+        filepath = os.path.join(file_directory, filename)
+        return send_file(filepath, as_attachment=True, mimetype='application/octet-stream')

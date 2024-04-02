@@ -4,19 +4,21 @@ import ApiUrl from '../config.js'
 export default {
     template: `<div class="container" style="min-height: 75vh;">
         <div class="row justify-content-md-center">
-            <div class="col col-md-8" >
-                <div class="card">
+            <div class="col col-md-6" >
+                <div class="card model-content">
                     <div class="card-header p-4 text-center">
                         <h4>Edit a Show</h4>
                     </div>
                     <div class="card-body px-5">
                         <form>
-                            <div class="mb-3">
-                            <label for="sid" class="form-label">Show Id</label>
-                            <select class="form-select" aria-label="Default select example" id="sid" @change='selectShow'>
-                                <option selected>Open this select menu</option>
-                                <option v-for="(show,index) in shows" :key="show.show_id" :value="index">{{ show.show_id }}</option>
-                            </select>
+                            <div class="mb-3 row">
+                                <label for="sid" class="col-3 col-form-label">Show Id</label>
+                                <div class="col-9">
+                                    <select class="form-select" aria-label="Default select example" id="sid" @change='selectShow'>
+                                        <option selected>Open this select menu</option>
+                                        <option v-for="(show,index) in shows" :key="show.show_id" :value="index">{{ show.show_id }}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -26,9 +28,11 @@ export default {
                             <label for="tags" class="form-label">Tags</label>
                             <input type="text" class="form-control" id="tags" v-model='show.tags'>
                             </div>
-                            <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" min="40" max="2000" v-model='show.price'>
+                            <div class="mb-3 row">
+                                <label for="price" class="col-2 col-form-label">Price</label>
+                                <div class="col-10">
+                                    <input type="number" class="form-control" id="price" min="40" max="2000" v-model='show.price'>
+                                </div>
                             </div>
                             <div class="mb-3">
                             <label for="file" class="form-label">Image</label>
@@ -36,8 +40,9 @@ export default {
                             </div>
                             <div class="text-center">
                             <button type="button" class="btn btn-primary" v-on:click='addshow()'>Submit</button>
+                            <button type="button" class="btn btn-primary" @click="$emit('closeForm')"> Close </button>
                             </div>
-                            <p class="text-center text-muted mt-4 mb-0"><router-link :to="{name:'deleteshow'}" class="fw-bold" style="text-decoration: none;">Click here</router-link> to delete a show.</p>
+                            <p class="text-center text-muted mt-4 mb-0"><a @click="$emit('switchDeleteshow')" class="fw-bold" style="text-decoration: none; cursor: pointer;">Click here</a> to delete a show.</p>
                         </form>
                     </div>
                 </div>
@@ -80,7 +85,7 @@ export default {
             })
             .then((data) => {
                 console.log( data)
-                this.$router.push({ name: 'admin_home' })
+                this.$emit('closeForm');
             })
             .catch((err) => {
                 this.error = err.message
