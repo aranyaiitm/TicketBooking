@@ -5,20 +5,28 @@ from flask import current_app
 from .database import db
 from .models import Booking, Theatre_show
 from .theatre_api import theatre_output
-from .show_api import show_output
 from .validation import  EntryValidationError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
 from datetime import datetime
+from .cache import cache
 
 
+show = {
+    "show_id" :fields.Integer,
+    "title" :fields.String,
+    "rating" :fields.Float,
+    "tags" :fields.String,
+    "price" :fields.Integer,
+}
 booking_output = {
     "booking_id" :fields.Integer,
+    "theatre_id" :fields.Integer,
     "time" : fields.DateTime(dt_format='iso8601'),
     "quantity" :fields.Integer,
     "total_price" :fields.Integer,
     "theatre" :fields.Nested(theatre_output),
-    "show" :fields.Nested(show_output)
+    "show" :fields.Nested(show)
 }
 
 create_booking_parser = reqparse.RequestParser()
@@ -62,7 +70,7 @@ class Bookings(Resource):
         quantity = args.get("quantity", None)
         total_price = args.get("total_price", None)
 
-        theatre_show = Theatre_show.query.filter(Theatre_show.theatre_id == theatre_id).first()
+        theatre_show = Theatre_show.query.filter((Theatre_show.theatre_id == theatre_id) & (Theatre_show.show_id == show_id)).first()
         new_avs = theatre_show.avs - quantity
 
         if theatre_show.avs < quantity:

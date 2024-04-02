@@ -48,7 +48,7 @@ class Theatre(db.Model):
     capacity = db.Column(db.Integer, nullable=False)
     admin_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     # shows = db.relationship("Show", secondary=theatre_shows, backref=db.backref('theatres', lazy='dynamic'))
-    theatre_shows = db.relationship("Theatre_show", cascade="all, delete-orphan" )
+    theatre_shows = db.relationship("Theatre_show", cascade="all, delete-orphan", backref=db.backref('venue', lazy=True))
     bookings = db.relationship("Booking", cascade="all, delete-orphan", backref=db.backref('theatre', lazy=True))
 
 class Show(db.Model):

@@ -5,19 +5,31 @@ from flask_login import current_user
 from flask import current_app
 from .database import db
 from .models import Theatre, Theatre_show
-from .show_api import show_output
-from .validation import  EntryValidationError
+from .validation import  EntryValidationError, NotFoundError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
 from datetime import datetime
 
+venue ={
+    "theatre_name" :fields.String,
+    "place" :fields.String,
+    "capacity": fields.Integer
+}
+show = {
+    "show_id" :fields.Integer,
+    "title" :fields.String,
+    "rating" :fields.Float,
+    "tags" :fields.String,
+    "price" :fields.Integer,
+}
 theatre_show_output ={
     "theatre_show_id" :fields.Integer,
     "theatre_id" :fields.Integer,
     "show_id" :fields.Integer,
     "time" :fields.DateTime(dt_format='iso8601'),
     "avs" :fields.Integer,
-    "show" :fields.Nested(show_output)
+    "venue" :fields.Nested(venue),
+    "show" :fields.Nested(show)
 }
 
 theatre_output = {
@@ -44,7 +56,10 @@ class Theatreinfo(Resource):
     @marshal_with(theatre_output)
     def get(self, theatre_id):
         theatre = Theatre.query.filter(Theatre.theatre_id == theatre_id).first()
-        return theatre
+        if theatre:
+            return theatre
+        else:
+            raise NotFoundError(status_code=404)
 
     @auth_required("token")
     @roles_required("admin")
@@ -126,6 +141,12 @@ class Theatre_showinfo(Resource):
             raise Conflict
         
 class Theatre_shows(Resource):
+    @auth_required("token")
+    @marshal_with(theatre_show_output)
+    def get(self):
+        theatreshow_list = Theatre_show.query.all()
+        return theatreshow_list
+        
     @auth_required("token")
     @roles_required("admin")
     def post(self):

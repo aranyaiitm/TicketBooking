@@ -7,7 +7,7 @@ export default {
             <div class="col col-md-8" >
                 <div class="card">
                     <div class="card-header p-4 text-center">
-                        <h4>Edit a Show</h4>
+                        <h4>Edit a Theatre</h4>
                     </div>
                     <div class="card-body px-5">
                         <form>
@@ -45,8 +45,8 @@ export default {
                 place: null,
                 capacity: null
             },
+            show: null,
             theatre_id: this.$route.params.theatre_id,
-            theatres: null,
             error: null
         }
     },
@@ -79,10 +79,10 @@ export default {
     },
 
     mounted() {
-        Fetchdata({  url: `${ApiUrl}/theatre`, authRequired: true })
+        Fetchdata({  url: `${ApiUrl}/theatre/${this.theatre_id}`, authRequired: true })
         .then((data) => {
-            this.shows = data
-            console.log( this.theatres)
+            this.theatre = data
+            console.log(this.theatre)
         })
         .catch((err) => {
             this.error = err.message

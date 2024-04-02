@@ -3,10 +3,13 @@ from flask_security import auth_required, roles_required
 from flask_restful import  marshal_with, fields, reqparse
 from flask import current_app
 from .database import db
+from .theatre_api import theatre_show_output
+from .booking_api import booking_output
 from .models import Show
 from .validation import  EntryValidationError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Conflict
+from .cache import cache
 
 
 
@@ -16,6 +19,8 @@ show_output = {
     "rating" :fields.Float,
     "tags" :fields.String,
     "price" :fields.Integer,
+    "theatre_shows" :fields.List(fields.Nested(theatre_show_output)),
+    "bookings" :fields.List(fields.Nested(booking_output))
 }
 
 create_show_parser = reqparse.RequestParser()

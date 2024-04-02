@@ -4,7 +4,7 @@ import json
 
 class NotFoundError(HTTPException):
     def __init__(self, status_code):
-        self.response = make_response('', status_code)
+        self.response = make_response(json.dumps(''), status_code)
 
 class UserValidationError(HTTPException):
     def __init__(self, status_code, error_code, error_message):

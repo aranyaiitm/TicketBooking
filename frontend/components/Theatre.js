@@ -27,7 +27,7 @@ export default {
                 <button @click="addTheatreShow" type="button" class="btn btn-outline-primary px-2 py-0" style="font-size: 2rem; color: cornflowerblue;"><i class="bi bi-plus-square-fill"></i></button>
             </div>
             <div class="card-footer text-center">
-                <button type="button" class="btn btn-light">Export</button>
+                <button type="button" class="btn btn-light" @click='exporttheatre'>Export</button>
             </div>
         </div>
     </div>`,
@@ -40,7 +40,9 @@ export default {
 
     data: function() {
             return {
-                showvenue: this.theatre
+                showvenue: this.theatre,
+                error: null,
+                exportth: null
             }
         },
 
@@ -69,6 +71,17 @@ export default {
                 this.error = err.message
             })
             this.showvenue.theatre_shows.splice(index, 1)
+        },
+        exporttheatre() {
+            Fetchdata({
+                url: `${ApiUrl}/export/${this.showvenue.theatre_id}`,authRequired: true })
+            .then((data) => {
+                this.exportth = data
+                alert("Data exported: "+data)
+            })
+            .catch((err) => {
+                this.error = err.message
+            })
         }
     }
 }

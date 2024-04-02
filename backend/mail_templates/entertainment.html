@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entertainment</title>
+</head>
+<body>
+    <h2>Ticket Booking</h2>
+    <p>Hi, {{ data['name'] }}<br>
+        You are having a good time with us,<br>
+        Here are the shows you have booked ticket to watch last month in our website.<br>
+        <ul>
+            {% for booking in data['bookings'] %}
+            <li>Show: {{ booking['show']['title'] }}, rating: {{ booking['show']['rating'] }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+</body>
+</html>

@@ -14,17 +14,17 @@ export default {
                         <router-link v-if='isAdmin' class="nav-link active" aria-current="page" :to="{name:'admin_home'}">
                             Dashboard
                         </router-link>
-                        <router-link class="nav-link" :to="{name:'summary'}">
+                        <router-link v-if='isAdmin' class="nav-link" :to="{name:'summary'}">
                             Summary
                         </router-link>
                         <router-link class="nav-link" :to="{name:'bookings'}">
                             Bookings
                         </router-link>
-                        <a class="nav-link" href="#">Export</a>
+                        <!-------- <a class="nav-link" href="#">Export</a> ----->
                     </div>
                     <div class="navbar-nav" v-if='loggedin'>
                         <span class="navbar-text me-2">
-                            {{ useremail }}
+                            {{ user.email }}
                         </span>
                         <button class="nav-link btn" @click='userlogout'>Logout</button>
                     </div>
@@ -52,6 +52,20 @@ export default {
     computed: {
         ...Vuex.mapState(['useremail']),
         ...Vuex.mapState(['loggedin']),
+        
+        // compute_user() {
+        //     if (this.$store.state.loggedin) {
+        //         Fetchdata({  url: `${ApiUrl}/user`, authRequired: true })
+        //         .then((data) => {
+        //             return data
+        //         })
+        //         .catch((err) => {
+        //             return err
+        //         })
+        //     }
+        //     return null
+        // },
+
         isAdmin() {
             if (this.user.roles != null) {
                 for (let i =0; i < this.user.roles.length; i++) {

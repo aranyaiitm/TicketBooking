@@ -9,6 +9,15 @@ class Config():
     DEBUG = True
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CELERY_BROKER_URL = "redis://localhost:6379/1"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+    # Caching
+    CACHE_TYPE = "RedisCache"
+    CACHE_REDIS_URL = "redis://localhost:6379/3"
+    CACHE_DEFAULT_TIMEOUT = 1000
+    CACHE_REDIS_HOST = "localhost"
+    CACHE_REDIS_PORT = 6379
+    CACHE_KEY_PREFIX = 'my_app'
 
 class LocalDevelopementConfigaration(Config):
     SQLITE_DB_DIR = os.path.join(curr_dir, "../db_directory")
@@ -21,3 +30,12 @@ class LocalDevelopementConfigaration(Config):
     WTF_CSRF_ENABLED = False
     SECURITY_REGISTERABLE = True
     SECURITY_SEND_REGISTER_EMAIL = False
+    CELERY_BROKER_URL = "redis://localhost:6379/1"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+    # Caching
+    CACHE_TYPE = "RedisCache"
+    CACHE_REDIS_URL = "redis://localhost:6379/3"
+    CACHE_DEFAULT_TIMEOUT = 1000
+    CACHE_REDIS_HOST = "localhost"
+    CACHE_REDIS_PORT = 6379
+    CACHE_KEY_PREFIX = 'my_app'
