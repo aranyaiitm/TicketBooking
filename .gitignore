@@ -2,3 +2,8 @@
 __pycache__
 dump.rdb
 celerybeat-schedule
+export_theatre_*.csv
+*.png
+*.jpg
+*.jpeg
+*.sqlite3
